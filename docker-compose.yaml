@@ -1,0 +1,17 @@
+version: '3'
+
+services:
+  won_games_course_api:
+    container_name: won_games_course_api
+    hostname: won_games_course_api
+    image: postgres
+    restart: always
+    environment:
+      POSTGRES_PASSWORD: wongames123
+      POSTGRES_DB: wongames
+      POSTGRES_USER: wongames
+      PGDATA: /var/lib/postgresql/data/pgdata
+    volumes:
+      - ~/.PostgressData/postgresonly/wongames:/var/lib/postgresql/data/pgdata
+    ports:
+      - 5432:5432
