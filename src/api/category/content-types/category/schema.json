@@ -8,7 +8,7 @@
   },
   "options": {
     "draftAndPublish": true,
-    "timestamps":true
+    "timestamps": true
   },
   "pluginOptions": {},
   "attributes": {
@@ -21,6 +21,12 @@
       "type": "uid",
       "targetField": "name",
       "required": true
+    },
+    "games": {
+      "type": "relation",
+      "relation": "manyToMany",
+      "target": "api::game.game",
+      "inversedBy": "categories"
     }
   }
 }
