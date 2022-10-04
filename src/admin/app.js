@@ -1,5 +1,6 @@
 import AuthLogo from 'assets/logo-won-dark.svg'
 import MenuLogo from 'assets/logo_won.svg'
+import FaviconHead from 'assets/favicon.png'
 
 export default {
   config: {
@@ -8,6 +9,9 @@ export default {
     },
     menu: {
       logo: MenuLogo,
+    },
+    head: {
+      favicon: FaviconHead,
     },
     locales: [
       // 'ar',
