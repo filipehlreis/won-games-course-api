@@ -1,5 +1,14 @@
+import AuthLogo from 'assets/logo-won-dark.svg'
+import MenuLogo from 'assets/logo_won.svg'
+
 export default {
   config: {
+    auth: {
+      logo: AuthLogo,
+    },
+    menu: {
+      logo: MenuLogo,
+    },
     locales: [
       // 'ar',
       // 'fr',
@@ -27,9 +36,12 @@ export default {
       // 'vi',
       // 'zh-Hans',
       // 'zh',
-    ],
+    ]
+    // menu:{
+    //   logo:'./extensions/logo-won.svg'
+    // }
   },
   bootstrap(app) {
-    console.log(app);
+    // console.log(app);
   },
 };
