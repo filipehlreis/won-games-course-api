@@ -13,6 +13,7 @@ export default {
     head: {
       favicon: FaviconHead,
     },
+    tutorials: false,
     locales: [
       // 'ar',
       // 'fr',
