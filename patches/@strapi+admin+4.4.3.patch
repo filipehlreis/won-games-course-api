@@ -1,0 +1,42 @@
+diff --git a/node_modules/@strapi/admin/admin/src/components/LeftMenu/index.js b/node_modules/@strapi/admin/admin/src/components/LeftMenu/index.js
+index 23b936b..50cd4cf 100644
+--- a/node_modules/@strapi/admin/admin/src/components/LeftMenu/index.js
++++ b/node_modules/@strapi/admin/admin/src/components/LeftMenu/index.js
+@@ -39,7 +39,7 @@ const LinkUser = styled(RouterNavLink)`
+ 
+   &:hover {
+     background: ${({ theme, logout }) =>
+-      logout ? theme.colors.danger100 : theme.colors.primary100};
++    logout ? theme.colors.danger100 : theme.colors.primary100};
+     text-decoration: none;
+   }
+ 
+@@ -93,7 +93,7 @@ const LeftMenu = ({ generalSectionLinks, pluginsSectionLinks }) => {
+         as={RouterNavLink}
+         workplace={formatMessage({
+           id: 'app.components.LeftMenu.navbrand.workplace',
+-          defaultMessage: 'Workplace',
++          defaultMessage: 'Workplaceeeeee',
+         })}
+         title={menuTitle}
+         icon={
+@@ -204,13 +204,13 @@ const LeftMenu = ({ generalSectionLinks, pluginsSectionLinks }) => {
+       <NavCondense onClick={() => setCondensed((s) => !s)}>
+         {condensed
+           ? formatMessage({
+-              id: 'app.components.LeftMenu.expand',
+-              defaultMessage: 'Expand the navbar',
+-            })
++            id: 'app.components.LeftMenu.expand',
++            defaultMessage: 'Expand the navbar',
++          })
+           : formatMessage({
+-              id: 'app.components.LeftMenu.collapse',
+-              defaultMessage: 'Collapse the navbar',
+-            })}
++            id: 'app.components.LeftMenu.collapse',
++            defaultMessage: 'Collapse the navbar',
++          })}
+       </NavCondense>
+     </MainNav>
+   );
