@@ -1,5 +1,5 @@
 diff --git a/node_modules/@strapi/admin/admin/src/components/LeftMenu/index.js b/node_modules/@strapi/admin/admin/src/components/LeftMenu/index.js
-index 23b936b..bb5b94c 100644
+index 23b936b..34d5ba3 100644
 --- a/node_modules/@strapi/admin/admin/src/components/LeftMenu/index.js
 +++ b/node_modules/@strapi/admin/admin/src/components/LeftMenu/index.js
 @@ -39,7 +39,7 @@ const LinkUser = styled(RouterNavLink)`
@@ -11,7 +11,7 @@ index 23b936b..bb5b94c 100644
      text-decoration: none;
    }
  
-@@ -91,14 +91,16 @@ const LeftMenu = ({ generalSectionLinks, pluginsSectionLinks }) => {
+@@ -91,14 +91,11 @@ const LeftMenu = ({ generalSectionLinks, pluginsSectionLinks }) => {
      <MainNav condensed={condensed}>
        <NavBrand
          as={RouterNavLink}
@@ -20,11 +20,6 @@ index 23b936b..bb5b94c 100644
 -          defaultMessage: 'Workplace',
 -        })}
 -        title={menuTitle}
-+        // workplace={formatMessage({
-+        //   id: 'app.components.LeftMenu.navbrand.workplace',
-+        //   defaultMessage: 'Workplace',
-+        // })}
-+        // title='{menuTitle}'
 +        style={{ textAlign: 'center', alignItems: 'center', justifyContent: 'center' }}
          icon={
            <img
@@ -33,7 +28,7 @@ index 23b936b..bb5b94c 100644
              alt={formatMessage({
                id: 'app.components.LeftMenu.logo.alt',
                defaultMessage: 'Application logo',
-@@ -204,13 +206,13 @@ const LeftMenu = ({ generalSectionLinks, pluginsSectionLinks }) => {
+@@ -204,13 +201,13 @@ const LeftMenu = ({ generalSectionLinks, pluginsSectionLinks }) => {
        <NavCondense onClick={() => setCondensed((s) => !s)}>
          {condensed
            ? formatMessage({
