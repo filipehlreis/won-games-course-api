@@ -48,6 +48,200 @@ index 23b936b..34d5ba3 100644
        </NavCondense>
      </MainNav>
    );
+diff --git a/node_modules/@strapi/admin/admin/src/pages/HomePage/HomeHeader.js b/node_modules/@strapi/admin/admin/src/pages/HomePage/HomeHeader.js
+index a846220..2b724b3 100644
+--- a/node_modules/@strapi/admin/admin/src/pages/HomePage/HomeHeader.js
++++ b/node_modules/@strapi/admin/admin/src/pages/HomePage/HomeHeader.js
+@@ -3,11 +3,8 @@ import styled from 'styled-components';
+ import PropTypes from 'prop-types';
+ import { useIntl } from 'react-intl';
+ import { Typography } from '@strapi/design-system/Typography';
+-import { Link } from '@strapi/design-system/v2/Link';
+ import { Stack } from '@strapi/design-system/Stack';
+ import { Box } from '@strapi/design-system/Box';
+-import { Button } from '@strapi/design-system/Button';
+-import ArrowRight from '@strapi/icons/ArrowRight';
+ 
+ const WordWrap = styled(Typography)`
+   word-break: break-word;
+@@ -24,45 +21,25 @@ const HomeHeader = ({ hasCreatedContentType, onCreateCT }) => {
+     <div>
+       <Box paddingLeft={6} paddingBottom={10}>
+         <StackCustom spacing={5}>
++
++
+           <Typography as="h1" variant="alpha">
+-            {hasCreatedContentType
+-              ? formatMessage({
+-                  id: 'app.components.HomePage.welcome.again',
+-                  defaultMessage: 'Welcome 👋',
+-                })
+-              : formatMessage({
+-                  id: 'app.components.HomePage.welcome',
+-                  defaultMessage: 'Welcome on board!',
+-                })}
++            {formatMessage({
++              id: 'Bem vindo a Won Games! 👋',
++              defaultMessage: 'Bem vindo a Won Games! 👋',
++            })}
+           </Typography>
++
++
+           <WordWrap textColor="neutral600" variant="epsilon">
+-            {hasCreatedContentType
+-              ? formatMessage({
+-                  id: 'app.components.HomePage.welcomeBlock.content.again',
+-                  defaultMessage:
+-                    'We hope you are making progress on your project! Feel free to read the latest news about Strapi. We are giving our best to improve the product based on your feedback.',
+-                })
+-              : formatMessage({
+-                  id: 'app.components.HomePage.welcomeBlock.content',
+-                  defaultMessage:
+-                    'Congrats! You are logged as the first administrator. To discover the powerful features provided by Strapi, we recommend you to create your first Content type!',
+-                })}
++            {formatMessage({
++              id: 'texto.a.ser.inserido.abaixo',
++              defaultMessage:
++                'Ao lado você pode inserir diferentes jogos, categorias e \
++                publishers para a nossa maravilhosa loja de jogos! 💜',
++            })}
+           </WordWrap>
+-          {hasCreatedContentType ? (
+-            <Link isExternal href="https://strapi.io/blog">
+-              {formatMessage({
+-                id: 'app.components.HomePage.button.blog',
+-                defaultMessage: 'See more on the blog',
+-              })}
+-            </Link>
+-          ) : (
+-            <Button size="L" onClick={onCreateCT} endIcon={<ArrowRight />}>
+-              {formatMessage({
+-                id: 'app.components.HomePage.create',
+-                defaultMessage: 'Create your first Content type',
+-              })}
+-            </Button>
+-          )}
++
+         </StackCustom>
+       </Box>
+     </div>
+diff --git a/node_modules/@strapi/admin/admin/src/pages/HomePage/SocialLinks.js b/node_modules/@strapi/admin/admin/src/pages/HomePage/SocialLinks.js
+index 7a0dba6..9a45e18 100644
+--- a/node_modules/@strapi/admin/admin/src/pages/HomePage/SocialLinks.js
++++ b/node_modules/@strapi/admin/admin/src/pages/HomePage/SocialLinks.js
+@@ -73,46 +73,16 @@ const StyledDiscourse = styled(Discourse)`
+ const socialLinks = [
+   {
+     name: 'Github',
+-    link: 'https://github.com/strapi/strapi/',
++    link: 'https://github.com/filipehlreis/won-games-course-api',
+     icon: <Github fill="#7289DA" />,
+     alt: 'github',
+   },
+-  {
+-    name: 'Discord',
+-    link: 'https://slack.strapi.io/',
+-    icon: <StyledDiscord />,
+-    alt: 'discord',
+-  },
+-  {
+-    name: 'Reddit',
+-    link: 'https://www.reddit.com/r/Strapi/',
+-    icon: <StyledReddit />,
+-    alt: 'reddit',
+-  },
+   {
+     name: 'Twitter',
+-    link: 'https://twitter.com/strapijs',
++    link: 'https://twitter.com/FriiHenrique',
+     icon: <StyledTwitter />,
+     alt: 'twitter',
+   },
+-  {
+-    name: 'Forum',
+-    link: 'https://forum.strapi.io',
+-    icon: <StyledDiscourse />,
+-    alt: 'forum',
+-  },
+-  {
+-    name: 'Blog',
+-    link: 'https://strapi.io/blog?utm_source=referral&utm_medium=admin&utm_campaign=career%20page',
+-    icon: <StyledStrapi />,
+-    alt: 'blog',
+-  },
+-  {
+-    name: 'We are hiring!',
+-    link: 'https://strapi.io/careers?utm_source=referral&utm_medium=admin&utm_campaign=blog',
+-    icon: <StyledStrapi />,
+-    alt: 'career',
+-  },
+ ];
+ 
+ const LinkCustom = styled(LinkButton)`
+@@ -153,28 +123,34 @@ const SocialLinks = () => {
+       <Box paddingBottom={7}>
+         <Stack spacing={5}>
+           <Stack spacing={3}>
++
+             <Typography variant="delta" as="h2" id="join-the-community">
+               {formatMessage({
+-                id: 'app.components.HomePage.community',
+-                defaultMessage: 'Join the community',
++                id: 'app.components.HomePage.communityNEW',
++                defaultMessage: 'Veja nossos links!',
+               })}
+             </Typography>
++
+             <Typography textColor="neutral600">
+               {formatMessage({
+-                id: 'app.components.HomePage.community.content',
++                id: 'app.components.HomePage.community.contentNEW',
+                 defaultMessage:
+-                  'Discuss with team members, contributors and developers on different channels',
++                  'Em caso de dúvidas e ou sugestões, só ir em algum de nossos links 😀',
+               })}
+             </Typography>
++
+           </Stack>
+-          <Link href="https://feedback.strapi.io/" isExternal endIcon={<ExternalLink />}>
++
++          <Link href="https://reactavancado.com.br/" isExternal endIcon={<ExternalLink />}>
+             {formatMessage({
+-              id: 'app.components.HomePage.roadmap',
+-              defaultMessage: 'See our road map',
++              id: 'app.components.HomePage.roadmapNEW',
++              defaultMessage: 'Veja o planejamento de módulos do curso',
+             })}
+           </Link>
++
+         </Stack>
+       </Box>
++
+       <GridGap>
+         {socialLinks.map((socialLink) => {
+           return (
+@@ -192,6 +168,7 @@ const SocialLinks = () => {
+           );
+         })}
+       </GridGap>
++
+     </Box>
+   );
+ };
+diff --git a/node_modules/@strapi/admin/admin/src/pages/HomePage/index.js b/node_modules/@strapi/admin/admin/src/pages/HomePage/index.js
+index ae1448f..a2a13b2 100644
+--- a/node_modules/@strapi/admin/admin/src/pages/HomePage/index.js
++++ b/node_modules/@strapi/admin/admin/src/pages/HomePage/index.js
+@@ -60,7 +60,8 @@ const HomePage = () => {
+   return (
+     <Layout>
+       <FormattedMessage id="HomePage.helmet.title" defaultMessage="Homepage">
+-        {(title) => <Helmet title={title[0]} />}
++        {/* {(title) => <Helmet title={title[0]} />} */}
++        {(title) => <Helmet title='Won Games' />}
+       </FormattedMessage>
+       <Main>
+         <LogoContainer>
 diff --git a/node_modules/@strapi/admin/build/Admin-authenticatedApp.88fa40ac.chunk.js b/node_modules/@strapi/admin/build/Admin-authenticatedApp.88fa40ac.chunk.js
 index 658de60..46b0de8 100644
 --- a/node_modules/@strapi/admin/build/Admin-authenticatedApp.88fa40ac.chunk.js
