@@ -1,5 +1,9 @@
 module.exports = () => {
   return {
-      ckeditor: true
+      ckeditor: true,
+      'repositories': {
+        enabled: true,
+        resolve: './src/plugins/repositories'
+      },
   }
 }
