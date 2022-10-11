@@ -1,19 +1,21 @@
-/*
- *
- * HomePage
- *
- */
-
 import React from 'react';
-// import PropTypes from 'prop-types';
-import pluginId from '../../pluginId';
+import styled from 'styled-components';
+// import { HeaderNav, HeaderModalTitle } from 'strapi-helper-plugin';
+
+const Wrapper = styled.div`
+  padding: 18px 30px;
+
+`;
 
 const HomePage = () => {
   return (
-    <div>
-      <h1>{pluginId}&apos;s HomePage</h1>
-      <p>Happy coding</p>
-    </div>
+    <Wrapper>
+      {/* <HeaderModalTitle
+
+        title={{ label: "React Avançado Repositories" }}
+        content="A list of our repositories in React Avançado course."
+      /> */}
+    </Wrapper>
   );
 };
 
