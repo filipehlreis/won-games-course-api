@@ -24,6 +24,7 @@
     "pg": "8.6.0",
     "postinstall": "^0.8.0",
     "postinstall-postinstall": "^2.1.0",
+    "slugify": "^1.6.5",
     "strapi-plugin-entity-relationship-chart": "^4.1.0"
   },
   "author": {
