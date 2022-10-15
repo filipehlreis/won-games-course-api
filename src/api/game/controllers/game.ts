@@ -12,6 +12,7 @@ export default factories.createCoreController('api::game.game', ({ strapi }) => 
 
       await strapi.service('api::game.populate').populate()
 
+      console.log('Finished populating!');
       ctx.send("Finished populating!")
     } catch (err) {
       ctx.send("Deu ruim!")

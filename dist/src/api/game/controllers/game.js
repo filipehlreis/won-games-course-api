@@ -10,6 +10,7 @@ exports.default = strapi_1.factories.createCoreController('api::game.game', ({ s
         try {
             console.log('Starting to populate');
             await strapi.service('api::game.populate').populate();
+            console.log('Finished populating!');
             ctx.send("Finished populating!");
         }
         catch (err) {
