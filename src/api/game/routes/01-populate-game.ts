@@ -1,6 +1,6 @@
 // path: ./src/api/restaurant/routes/01-custom-restaurant.js
 
-export default  {
+export default {
   routes: [
     { // Path defined with an URL parameter
       method: 'POST',
