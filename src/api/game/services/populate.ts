@@ -10,7 +10,6 @@ async function getGameInfo(slug) {
   const { JSDOM } = jsdom;
   const body = await axios.get(`https://www.gog.com/en/game/${slug}`);
   const dom = new JSDOM(body.data);
-
   const description = dom.window.document.querySelector('.description');
 
   return {
@@ -26,6 +25,7 @@ async function getByName(name, entityName) {
     filters: { name: name },
     sort: 'name',
   })
+
   return item.length ? item[0] : null;
 }
 
@@ -42,6 +42,33 @@ async function create(name, entityName) {
   }
 }
 
+async function createManyToManyData(products) {
+  const developers = {};
+  const publishers = {};
+  const categories = {};
+  const platforms = {};
+
+  products.forEach((product) => {
+    const { developer, publisher, genres, supportedOperatingSystems } = product;
+
+    genres && genres.forEach((item) => {
+      categories[item] = true;
+    });
+    supportedOperatingSystems && supportedOperatingSystems.forEach((item) => {
+      platforms[item] = true;
+    });
+    developers[developer] = true;
+    publishers[publisher] = true;
+  });
+
+  return Promise.all([
+    ...Object.keys(developers).map((name) => create(name, "developer")),
+    ...Object.keys(publishers).map((name) => create(name, "publisher")),
+    ...Object.keys(categories).map((name) => create(name, "category")),
+    ...Object.keys(platforms).map((name) => create(name, "platform")),
+  ]);
+}
+
 
 export default () => ({
   async populate(params) {
@@ -51,8 +78,10 @@ export default () => ({
 
     // console.log(products[0]);
 
-    await create(products[4].publisher, "publisher");
-    await create(products[4].developer, "developer");
+    // await create(products[4].publisher, "publisher");
+    // await create(products[4].developer, "developer");
+
+    await createManyToManyData([products[7], products[8], products[9]]);
 
     // console.log(await getGameInfo(products[0].slug))
   }
