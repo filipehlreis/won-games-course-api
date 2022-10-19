@@ -69,7 +69,7 @@ async function createGames(products) {
                     name: product.title,
                     slug: product.slug.replace(/_/g, "-"),
                     price: product.price.amount,
-                    release_date: new Date(Number(product.globalReleaseDate) * 1000).toISOString(),
+                    release_date: new Date(Number(product.globalReleaseDate) * 1000).toISOString().split("T")[0],
                     categories: await Promise.all(product.genres.map((name) => getByName(name, "category"))),
                     platforms: await Promise.all(product.supportedOperatingSystems.map((name) => getByName(name, "platform"))),
                     developers: [await getByName(product.developer, "developer")],
@@ -89,7 +89,7 @@ exports.default = () => ({
         // await create(products[4].publisher, "publisher");
         // await create(products[4].developer, "developer");
         await createManyToManyData([products[0], products[1], products[2]]);
-        await createGames([products[7], products[1], products[2]]);
+        await createGames([products[0], products[1], products[2]]);
         // console.log(await getGameInfo(products[0].slug))
     }
 });
