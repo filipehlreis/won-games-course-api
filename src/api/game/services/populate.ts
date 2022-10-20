@@ -69,6 +69,32 @@ async function createManyToManyData(products) {
   ]);
 }
 
+async function setImage({ image, game, field = "cover" }) {
+  const url = `https:${image}_bg_crop_1680x655.jpg`;
+  const { data } = await axios.get(url, { responseType: "arraybuffer" });
+  const buffer = Buffer.from(data, "base64");
+
+  console.info(`\n\nO endereco da imagem é completa é: ${url}`);
+  const FormData = require("form-data");
+  const formData = new FormData();
+
+  formData.append("refId", game.id);
+  formData.append("ref", "game");
+  formData.append("field", field);
+  formData.append("files", buffer, { filename: `${game.slug}.jpg` });
+
+  console.info(`\n\nUploading ${field} image: ${game.slug}.jpg`);
+
+  await axios({
+    method: "POST",
+    url: `http://${strapi.config.host}:${strapi.config.port}/api/upload`,
+    data: formData,
+    headers: {
+      "Content-Type": `multipart/form-data; boundary=${formData._boundary}`,
+    }
+  });
+}
+
 async function createGames(products) {
   await Promise.all(
     products.map(async (product) => {
@@ -90,6 +116,9 @@ async function createGames(products) {
           }
         });
 
+        console.info(`\n\nO endereco da imagem é: ${product.image}`);
+        await setImage({ image: product.image, game });
+
         return game;
       }
     })
@@ -107,8 +136,8 @@ export default () => ({
     // await create(products[4].publisher, "publisher");
     // await create(products[4].developer, "developer");
 
-    await createManyToManyData([products[0], products[1], products[2]]);
-    await createGames([products[0], products[1], products[2]]);
+    await createManyToManyData([products[0]]);
+    await createGames([products[0]]);
 
     // console.log(await getGameInfo(products[0].slug))
   }
