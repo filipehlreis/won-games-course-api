@@ -10,7 +10,11 @@
     "postinstall": "patch-package",
     "strapi": "strapi"
   },
-  "devDependencies": {},
+  "devDependencies": {
+    "@commitlint/cli": "^17.1.2",
+    "@commitlint/config-conventional": "^17.1.0",
+    "husky": "^8.0.1"
+  },
   "dependencies": {
     "@_sh/strapi-plugin-ckeditor": "^1.1.2",
     "@buffetjs/custom": "^3.3.8",
