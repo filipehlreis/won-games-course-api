@@ -8,11 +8,14 @@
     "start": "strapi start",
     "build": "strapi build",
     "postinstall": "patch-package",
-    "strapi": "strapi"
+    "strapi": "strapi",
+    "commit": "git-cz"
   },
   "devDependencies": {
     "@commitlint/cli": "^17.1.2",
     "@commitlint/config-conventional": "^17.1.0",
+    "commitizen": "^4.2.5",
+    "cz-conventional-changelog": "3.3.0",
     "husky": "^8.0.1"
   },
   "dependencies": {
@@ -41,5 +44,10 @@
     "node": ">=14.19.1 <=18.x.x",
     "npm": ">=6.0.0"
   },
-  "license": "MIT"
+  "license": "MIT",
+  "config": {
+    "commitizen": {
+      "path": "./node_modules/cz-conventional-changelog"
+    }
+  }
 }
