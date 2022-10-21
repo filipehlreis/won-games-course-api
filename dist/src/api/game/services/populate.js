@@ -5,6 +5,9 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 const axios = require("axios");
 const slugify = require("slugify");
+function timeout(ms) {
+    return new Promise(resolve => setTimeout(resolve, ms));
+}
 async function getGameInfo(slug) {
     const jsdom = require("jsdom");
     const { JSDOM } = jsdom;
@@ -63,7 +66,6 @@ async function setImage({ image, game, field = "cover" }) {
     const url = `https:${image}_bg_crop_1680x655.jpg`;
     const { data } = await axios.get(url, { responseType: "arraybuffer" });
     const buffer = Buffer.from(data, "base64");
-    console.info(`\n\nO endereco da imagem é completa é: ${url}`);
     const FormData = require("form-data");
     const formData = new FormData();
     formData.append("refId", game.id);
@@ -98,8 +100,11 @@ async function createGames(products) {
                     ...(await getGameInfo(product.slug)),
                 }
             });
-            console.info(`\n\nO endereco da imagem é: ${product.image}`);
             await setImage({ image: product.image, game });
+            await Promise.all(product.gallery
+                .slice(0, 5)
+                .map(url => setImage({ image: url, game, field: "gallery" })));
+            await timeout(2000);
             return game;
         }
     }));
@@ -111,8 +116,8 @@ exports.default = () => ({
         // console.log(products[0]);
         // await create(products[4].publisher, "publisher");
         // await create(products[4].developer, "developer");
-        await createManyToManyData([products[0]]);
-        await createGames([products[0]]);
+        await createManyToManyData([products[0], products[1], products[2], products[3]]);
+        await createGames([products[0], products[1], products[2], products[3]]);
         // console.log(await getGameInfo(products[0].slug))
     }
 });
