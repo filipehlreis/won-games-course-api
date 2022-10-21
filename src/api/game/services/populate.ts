@@ -128,7 +128,6 @@ async function createGames(products) {
 
         await timeout(2000);
 
-
         return game;
       }
     })
