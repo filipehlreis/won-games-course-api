@@ -10,7 +10,13 @@ export default factories.createCoreController('api::game.game', ({ strapi }) => 
     try {
       console.log('Starting to populate');
 
-      await strapi.service('api::game.populate').populate()
+      const options = {
+        sort: "popularity",
+        page: "1",
+        ...ctx.query
+      }
+
+      await strapi.service('api::game.populate').populate(options)
 
       console.log('Finished populating!');
       ctx.send("Finished populating!")

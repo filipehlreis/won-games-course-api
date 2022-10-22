@@ -4,6 +4,7 @@
 
 const axios = require("axios");
 const slugify = require("slugify");
+const qs = require("querystring");
 
 function Exception(e) {
   return { e, data: e.data && e.data.erros && e.data.errors };
@@ -137,7 +138,7 @@ async function createGames(products) {
             .slice(0, 5)
             .map(url => setImage({ image: url, game, field: "gallery" }))
         );
-        
+
         await timeout(2000);
 
         return game;
@@ -149,7 +150,8 @@ async function createGames(products) {
 export default () => ({
   async populate(params) {
     try {
-      const gogApiUrl = `https://www.gog.com/games/ajax/filtered?mediaType=game&page=1&sort=popularity`;
+      const gogApiUrl = `https://www.gog.com/games/ajax/filtered?mediaType=game&${qs.stringify(params)}`;
+
       const { data: { products } } = await axios.get(gogApiUrl);
 
       await createManyToManyData(products);
