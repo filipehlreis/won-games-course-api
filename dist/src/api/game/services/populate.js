@@ -43,7 +43,7 @@ async function create(name, entityName) {
         return await strapi.entityService.create(`api::${entityName}.${entityName}`, {
             data: {
                 name,
-                slug: slugify(name, { lower: true }),
+                slug: slugify(name, { strict: true, lower: true }),
             }
         });
     }
@@ -82,7 +82,7 @@ async function setImage({ image, game, field = "cover" }) {
         formData.append("ref", "api::game.game");
         formData.append("field", field);
         formData.append("files", buffer, { filename: `${game.slug}.jpg` });
-        console.info(`\n\nUploading ${field} image: ${game.slug}.jpg`);
+        console.info(`Uploading ${field} image: ${game.slug}.jpg`);
         await axios({
             method: "POST",
             url: `http://${strapi.config.host}:${strapi.config.port}/api/upload`,
@@ -104,7 +104,7 @@ async function createGames(products) {
             const game = await strapi.entityService.create(`api::game.game`, {
                 data: {
                     name: product.title,
-                    slug: product.slug.replace(/_/g, "-"),
+                    slug: product.slug.replace(/[!"#$%&\'()*+,/:;<=>?@\[\]^`{|}]/g, "-"),
                     price: product.price.amount,
                     release_date: new Date(Number(product.globalReleaseDate) * 1000).toISOString().split("T")[0],
                     categories: await Promise.all(product.genres.map((name) => getByName(name, "category"))),
