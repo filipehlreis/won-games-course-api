@@ -137,7 +137,7 @@ async function createGames(products) {
             .slice(0, 5)
             .map(url => setImage({ image: url, game, field: "gallery" }))
         );
-
+        
         await timeout(2000);
 
         return game;
@@ -150,18 +150,11 @@ export default () => ({
   async populate(params) {
     try {
       const gogApiUrl = `https://www.gog.com/games/ajax/filtered?mediaType=game&page=1&sort=popularity`;
-
       const { data: { products } } = await axios.get(gogApiUrl);
-
-      // console.log(products[0]);
-
-      // await create(products[4].publisher, "publisher");
-      // await create(products[4].developer, "developer");
 
       await createManyToManyData(products);
       await createGames(products);
 
-      // console.log(await getGameInfo(products[0].slug))
     } catch (e) {
       console.log("populate", Exception(e));
     }
