@@ -158,8 +158,8 @@ export default () => ({
       // await create(products[4].publisher, "publisher");
       // await create(products[4].developer, "developer");
 
-      await createManyToManyData([products[0], products[1], products[2], products[3]]);
-      await createGames([products[0], products[1], products[2], products[3]]);
+      await createManyToManyData(products);
+      await createGames(products);
 
       // console.log(await getGameInfo(products[0].slug))
     } catch (e) {
