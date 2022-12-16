@@ -17,3 +17,8 @@ exports.default = {
      */
     bootstrap( /*{ strapi }*/) { },
 };
+/*
+https://catalog.gog.com/v1/catalog?limit=48&releaseStatuses=in:upcoming&order=desc:trending&productType=in:game,pack,dlc,extras&page=1&countryCode=REST&locale=en-US&currencyCode=USD
+releaseStatuses=upcoming
+ curl -X POST http://localhost:1337/api/game/populate\?availability\=coming\&sort\=trending\&limit\=48\&page\=3
+*/
