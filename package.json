@@ -29,6 +29,7 @@
     "@strapi/plugin-graphql": "^4.4.3",
     "@strapi/plugin-i18n": "4.4.3",
     "@strapi/plugin-users-permissions": "4.4.3",
+    "@strapi/provider-email-nodemailer": "^4.10.2",
     "@strapi/strapi": "4.4.3",
     "buffetjs": "^1.0.6",
     "jsdom": "^20.0.1",
@@ -37,8 +38,7 @@
     "postinstall": "^0.8.0",
     "postinstall-postinstall": "^2.1.0",
     "slugify": "^1.6.5",
-    "strapi-plugin-entity-relationship-chart": "^4.1.0",
-    "strapi-provider-email-nodemailer": "^3.6.11"
+    "strapi-plugin-entity-relationship-chart": "^4.1.0"
   },
   "author": {
     "name": "A Strapi developer"
