@@ -28,7 +28,26 @@ export default {
               return true;
             }
           ]
-        }
+        },
+        'Mutation.updateWishlist': {
+          policies: [
+            async (context) => {
+              const emailContext = context.context.state.user.email;
+
+              const isThereAnId = await strapi.db.query('api::wishlist.wishlist').findOne({
+                filters: { user: { email: emailContext } }
+              }) || false;
+
+              if (!isThereAnId) return false;
+
+              context.args.id = isThereAnId.id;
+              context.args.data.user = context.context.state.user.id;
+
+              return true;
+            }
+          ]
+        },
+
       }
     });
   },
