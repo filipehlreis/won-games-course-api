@@ -15,7 +15,28 @@ export default {
         'Mutation.createWishlist': {
           policies: [
             async (context) => {
+              // return true;
+              const contexto = context
+              // console.info(
+              //   'dentro do useeffect info para o wishlistItems >>>>>>',
+              //   JSON.stringify(context, null, 2),
+              // );
+              console.log('contexto do ', context)
+              console.log('contexto do contexto ', context.context)
+              console.log('state do contexto do contexto ', context.context.state)
+              console.log('koaContext do contexto do contexto ', context.context.koaContext)
+              console.log('state do contexto ', context.state)
+              console.log('strategy do contexto ', await context.state.auth.strategy)
+              console.log('http do contexto ', context.http)
+
+              // console.log('teste do teste')
+              // console.log(context.context.state)
+              // // const { id } = context.state.user;
+              // console.log('context.state.user >>>>>', await context.context.state.user)
+              // const token = await strapi.plugins['users-permissions'].service
+              // console.log('tokeeeeen >>> ', token)
               const emailContext = context.context.state.user.email;
+              console.log(emailContext);
 
               const isThereAnId = await strapi.db.query('api::wishlist.wishlist').findOne({
                 filters: { user: { email: emailContext } }
@@ -34,6 +55,7 @@ export default {
             async (context) => {
               const emailContext = context.context.state.user.email;
 
+              console.log(emailContext);
               const isThereAnId = await strapi.db.query('api::wishlist.wishlist').findOne({
                 filters: { user: { email: emailContext } }
               }) || false;
