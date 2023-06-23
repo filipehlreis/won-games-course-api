@@ -7,6 +7,7 @@ const strapi_1 = require("@strapi/strapi");
 exports.default = strapi_1.factories.createCoreController('api::order.order', ({ strapi }) => ({
     // Method 1: Creating an entirely custom action
     async createPaymentIntent(ctx) {
-        return "Hello world!";
+        const { cart } = ctx.request.body;
+        return cart;
     },
 }));
