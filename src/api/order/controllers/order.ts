@@ -51,7 +51,11 @@ export default factories.createCoreController('api::order.order', ({ strapi }) =
         }
       }
 
-      return games;
+      const total = games.reduce((acc, game) => {
+        return acc + game.price;
+      }, 0)
+
+      return { total_in_cents: total * 100, games };
 
     } catch (error) {
       console.log(error)
