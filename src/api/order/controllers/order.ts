@@ -2,6 +2,8 @@
  * order controller
  */
 
+const stripe = require('stripe')(process.env.STRIPE_KEY)
+
 import { factories } from '@strapi/strapi'
 
 export type gameProps = {
