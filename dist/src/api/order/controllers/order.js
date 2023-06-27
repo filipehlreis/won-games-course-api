@@ -22,6 +22,12 @@ exports.default = strapi_1.factories.createCoreController('api::order.order', ({
                 }
                 console.log(validatedGame);
             }));
+            if (!games.length) {
+                ctx.response.status = 404;
+                return {
+                    error: "No valid games found!",
+                };
+            }
             return games;
         }
         catch (error) {

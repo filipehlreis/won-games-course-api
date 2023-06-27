@@ -34,14 +34,23 @@ export default factories.createCoreController('api::order.order', ({ strapi }) =
       await Promise.all(
         cart?.map(async (game) => {
           const validatedGame = await strapi.entityService.findOne('api::game.game', game.id
-            , {})
+            , {});
           if (validatedGame) {
-            games.push(validatedGame)
+            games.push(validatedGame);
           }
 
-          console.log(validatedGame)
+          console.log(validatedGame);
         })
       )
+
+
+      if (!games.length) {
+        ctx.response.status = 404;
+        return {
+          error: "No valid games found!",
+        }
+      }
+
       return games;
 
     } catch (error) {
