@@ -63,7 +63,22 @@ export default factories.createCoreController('api::order.order', ({ strapi }) =
         }
       }
 
-      return { total_in_cents: total * 100, games };
+      try {
+        const paymentIntent = await stripe.paymentIntents.create({
+          amount: (total * 100).toFixed(),
+          currency: "usd",
+          metadata: {
+            integration_check: "accept_a_payment"
+          }
+        })
+
+        return paymentIntent;
+      } catch (err) {
+        console.log(err);
+        return {
+          error: err.raw.message
+        };
+      }
 
     } catch (error) {
       console.log(error)
