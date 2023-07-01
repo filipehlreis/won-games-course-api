@@ -41,10 +41,11 @@ export default factories.createCoreController('api::order.order', ({ strapi }) =
             games.push(validatedGame);
           }
 
-          console.log(validatedGame);
+          // console.log(validatedGame);
         })
       )
 
+      console.log('imprimindo uma vez aqui')
 
       if (!games.length) {
         ctx.response.status = 404;
@@ -85,4 +86,22 @@ export default factories.createCoreController('api::order.order', ({ strapi }) =
       return "Deu ruim"
     }
   },
+
+  async create(ctx) {
+    // pegar as informacoes do frontend
+    const { cart, paymentIntentId, paymentMethod } = ctx.request.body
+
+
+
+    // pegar o usuario
+    // pergar os jogos
+    // pegar o total ( saber se eh free ou nao)
+    // pegar o paymentIntentId
+    // pegar as informacoes do pagamento (paymentMethod)
+    // salvar no banco
+    // enviar um email da compra para o usuario
+
+    return { cart, paymentIntentId, paymentMethod }
+
+  }
 }));
