@@ -94,6 +94,13 @@ export default factories.createCoreController('api::order.order', ({ strapi }) =
 
 
     // pegar o usuario
+    const { id: userId } = await strapi.service("plugin::users-permissions.jwt").getToken(ctx);;
+    console.log(userId)
+
+    // pegar as informacoes do usuario
+    const userInfo = await strapi.db.query("plugin::users-permissions.user").findOne({ where: { id: userId } })
+    console.log(userInfo)
+
     // pergar os jogos
     // pegar o total ( saber se eh free ou nao)
     // pegar o paymentIntentId
@@ -101,7 +108,7 @@ export default factories.createCoreController('api::order.order', ({ strapi }) =
     // salvar no banco
     // enviar um email da compra para o usuario
 
-    return { cart, paymentIntentId, paymentMethod }
+    return { cart, paymentIntentId, paymentMethod, userInfo }
 
   }
 }));
