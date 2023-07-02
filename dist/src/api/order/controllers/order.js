@@ -3,26 +3,20 @@
  * order controller
  */
 Object.defineProperty(exports, "__esModule", { value: true });
+const utils = require("@strapi/utils");
+const { sanitizeEntity } = utils;
 const stripe = require('stripe')(process.env.STRIPE_KEY);
 const strapi_1 = require("@strapi/strapi");
+const cart_1 = require("../../../../config/functions/cart");
 exports.default = strapi_1.factories.createCoreController('api::order.order', ({ strapi }) => ({
     // Method 1: Creating an entirely custom action
     async createPaymentIntent(ctx) {
         try {
             const { cart } = ctx.request.body;
-            let games = [];
-            // await strapi.entityService.findMany(`api::${entityName}.${entityName}`, {
-            //   fields: ['name'],
-            //   filters: { name: name },
-            //   sort: 'name',
-            // })
-            await Promise.all(cart === null || cart === void 0 ? void 0 : cart.map(async (game) => {
-                const validatedGame = await strapi.entityService.findOne('api::game.game', game.id, {});
-                if (validatedGame) {
-                    games.push(validatedGame);
-                }
-                // console.log(validatedGame);
-            }));
+            // simplify cart data
+            const cartGamesIds = await (0, cart_1.cartGamesIdsFn)(cart);
+            // get all games
+            const games = await (0, cart_1.cartItems)(cartGamesIds);
             console.log('imprimindo uma vez aqui');
             if (!games.length) {
                 ctx.response.status = 404;
@@ -30,9 +24,7 @@ exports.default = strapi_1.factories.createCoreController('api::order.order', ({
                     error: "No valid games found!",
                 };
             }
-            const total = games.reduce((acc, game) => {
-                return acc + game.price;
-            }, 0);
+            const total = await (0, cart_1.cartTotalInCents)(games);
             if (total === 0) {
                 return {
                     freeGames: true
@@ -43,7 +35,7 @@ exports.default = strapi_1.factories.createCoreController('api::order.order', ({
                     amount: (total * 100).toFixed(),
                     currency: "usd",
                     metadata: {
-                        integration_check: "accept_a_payment"
+                        cart: JSON.stringify(cartGamesIds)
                     }
                 });
                 return paymentIntent;
@@ -69,13 +61,27 @@ exports.default = strapi_1.factories.createCoreController('api::order.order', ({
         console.log(userId);
         // pegar as informacoes do usuario
         const userInfo = await strapi.db.query("plugin::users-permissions.user").findOne({ where: { id: userId } });
-        console.log(userInfo);
-        // pergar os jogos
+        // simplify cart data
+        const cartGamesIds = await (0, cart_1.cartGamesIdsFn)(cart);
+        // get all games
+        const games = await (0, cart_1.cartItems)(cartGamesIds);
         // pegar o total ( saber se eh free ou nao)
-        // pegar o paymentIntentId
-        // pegar as informacoes do pagamento (paymentMethod)
+        const total_in_cents = await (0, cart_1.cartTotalInCents)(games);
+        // precisa pegar do frontend os valores paymentMethod e recuperar por aqui
         // salvar no banco
+        const entry = {
+            data: {
+                total_in_cents,
+                payment_intent_id: paymentIntentId,
+                card_brand: null,
+                card_last4: null,
+                user: userInfo,
+                games: games,
+            }
+        };
+        const entity = await strapi.entityService.create('api::order.order', entry);
         // enviar um email da compra para o usuario
-        return { cart, paymentIntentId, paymentMethod, userInfo };
+        // retornando que foi salvo no banco
+        return this.sanitizeOutput(entity, ctx);
     }
 }));
