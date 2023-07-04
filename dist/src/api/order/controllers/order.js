@@ -32,7 +32,7 @@ exports.default = strapi_1.factories.createCoreController('api::order.order', ({
             }
             try {
                 const paymentIntent = await stripe.paymentIntents.create({
-                    amount: (total * 100).toFixed(),
+                    amount: total,
                     currency: "usd",
                     metadata: {
                         cart: JSON.stringify(cartGamesIds)
@@ -53,11 +53,11 @@ exports.default = strapi_1.factories.createCoreController('api::order.order', ({
         }
     },
     async create(ctx) {
+        var _a, _b;
         // pegar as informacoes do frontend
         const { cart, paymentIntentId, paymentMethod } = ctx.request.body;
         // pegar o usuario
         const { id: userId } = await strapi.service("plugin::users-permissions.jwt").getToken(ctx);
-        ;
         console.log(userId);
         // pegar as informacoes do usuario
         const userInfo = await strapi.db.query("plugin::users-permissions.user").findOne({ where: { id: userId } });
@@ -68,13 +68,36 @@ exports.default = strapi_1.factories.createCoreController('api::order.order', ({
         // pegar o total ( saber se eh free ou nao)
         const total_in_cents = await (0, cart_1.cartTotalInCents)(games);
         // precisa pegar do frontend os valores paymentMethod e recuperar por aqui
+        let paymentInfo;
+        paymentInfo = await stripe.paymentMethods.retrieve(paymentMethod);
+        if (total_in_cents !== 0) {
+            // console.log('paymentMethod', paymentMethod)
+            // console.log('paymentIntentId', paymentIntentId)
+            try {
+                // console.log('chegou aqui')
+                paymentInfo = await stripe.paymentMethods.retrieve(paymentMethod);
+                // console.log('chegou aqui 2 ')
+            }
+            catch (error) {
+                ctx.response.status = 402;
+                // console.log('chegou aqui tambem')
+                // console.log({ error: error.message })
+                return { error: error.message };
+            }
+            // try {
+            //   paymentInfo = await stripe.paymentMethods.retrive(paymentMethod)
+            // } catch (error) {
+            //   ctx.response.status = 402
+            //   return { error: error.message }
+            // }
+        }
         // salvar no banco
         const entry = {
             data: {
                 total_in_cents,
                 payment_intent_id: paymentIntentId,
-                card_brand: null,
-                card_last4: null,
+                card_brand: (_a = paymentInfo === null || paymentInfo === void 0 ? void 0 : paymentInfo.card) === null || _a === void 0 ? void 0 : _a.brand,
+                card_last4: (_b = paymentInfo === null || paymentInfo === void 0 ? void 0 : paymentInfo.card) === null || _b === void 0 ? void 0 : _b.last4,
                 user: userInfo,
                 games: games,
             }
