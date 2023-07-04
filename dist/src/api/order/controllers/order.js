@@ -8,6 +8,7 @@ const { sanitizeEntity } = utils;
 const stripe = require('stripe')(process.env.STRIPE_KEY);
 const strapi_1 = require("@strapi/strapi");
 const cart_1 = require("../../../../config/functions/cart");
+const order_1 = require("../services/order");
 exports.default = strapi_1.factories.createCoreController('api::order.order', ({ strapi }) => ({
     // Method 1: Creating an entirely custom action
     async createPaymentIntent(ctx) {
@@ -69,7 +70,7 @@ exports.default = strapi_1.factories.createCoreController('api::order.order', ({
         const total_in_cents = await (0, cart_1.cartTotalInCents)(games);
         // precisa pegar do frontend os valores paymentMethod e recuperar por aqui
         let paymentInfo;
-        paymentInfo = await stripe.paymentMethods.retrieve(paymentMethod);
+        // paymentInfo = await stripe.paymentMethods.retrieve(paymentMethod);
         if (total_in_cents !== 0) {
             // console.log('paymentMethod', paymentMethod)
             // console.log('paymentIntentId', paymentIntentId)
@@ -104,6 +105,17 @@ exports.default = strapi_1.factories.createCoreController('api::order.order', ({
         };
         const entity = await strapi.entityService.create('api::order.order', entry);
         // enviar um email da compra para o usuario
+        await strapi.plugins['email'].services.email.sendTemplatedEmail({
+            to: userInfo.email,
+        }, order_1.emailTemplateOrder, {
+            user: userInfo,
+            payment: {
+                total: `$ ${total_in_cents / 100}`,
+                card_brand: entry.data.card_brand,
+                card_last4: entry.data.card_last4,
+            },
+            games
+        });
         // retornando que foi salvo no banco
         return this.sanitizeOutput(entity, ctx);
     }

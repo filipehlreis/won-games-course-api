@@ -10,6 +10,7 @@ const stripe = require('stripe')(process.env.STRIPE_KEY)
 
 import { factories } from '@strapi/strapi'
 import { cartGamesIdsFn, cartItems, cartTotalInCents } from '../../../../config/functions/cart'
+import { emailTemplateOrder } from '../services/order';
 
 export type gameProps = {
   id: string
@@ -140,7 +141,21 @@ export default factories.createCoreController('api::order.order', ({ strapi }) =
     const entity = await strapi.entityService.create('api::order.order', entry)
 
     // enviar um email da compra para o usuario
-
+    await strapi.plugins['email'].services.email.sendTemplatedEmail(
+      {
+        to: userInfo.email,
+      },
+      emailTemplateOrder,
+      {
+        user: userInfo,
+        payment: {
+          total: `$ ${total_in_cents / 100}`,
+          card_brand: entry.data.card_brand,
+          card_last4: entry.data.card_last4,
+        },
+        games
+      }
+    );
     // retornando que foi salvo no banco
     return this.sanitizeOutput(entity, ctx);
   }
