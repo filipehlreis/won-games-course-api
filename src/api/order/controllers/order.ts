@@ -141,11 +141,11 @@ export default factories.createCoreController('api::order.order', ({ strapi }) =
     const entity = await strapi.entityService.create('api::order.order', entry)
 
     // enviar um email da compra para o usuario
-    await strapi.plugins['email'].services.email.sendTemplatedEmail(
+    await strapi.plugins['email-designer'].services.email.sendTemplatedEmail(
       {
         to: userInfo.email,
       },
-      emailTemplateOrder,
+      { templateReferenceId: 10 },
       {
         user: userInfo,
         payment: {

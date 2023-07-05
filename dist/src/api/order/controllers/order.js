@@ -8,7 +8,6 @@ const { sanitizeEntity } = utils;
 const stripe = require('stripe')(process.env.STRIPE_KEY);
 const strapi_1 = require("@strapi/strapi");
 const cart_1 = require("../../../../config/functions/cart");
-const order_1 = require("../services/order");
 exports.default = strapi_1.factories.createCoreController('api::order.order', ({ strapi }) => ({
     // Method 1: Creating an entirely custom action
     async createPaymentIntent(ctx) {
@@ -105,9 +104,9 @@ exports.default = strapi_1.factories.createCoreController('api::order.order', ({
         };
         const entity = await strapi.entityService.create('api::order.order', entry);
         // enviar um email da compra para o usuario
-        await strapi.plugins['email'].services.email.sendTemplatedEmail({
+        await strapi.plugins['email-designer'].services.email.sendTemplatedEmail({
             to: userInfo.email,
-        }, order_1.emailTemplateOrder, {
+        }, { templateReferenceId: 10 }, {
             user: userInfo,
             payment: {
                 total: `$ ${total_in_cents / 100}`,
